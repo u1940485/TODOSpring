@@ -48,6 +48,11 @@ public class User implements Serializable {
   @JsonView(Views.Complete.class)
   private Collection<Task> tasks;
 
+  @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
+  @JsonView(Views.Complete.class)
+  private Collection<Group> ownergroups;
+
+
   public Long getId() {
     return id;
   }
@@ -68,8 +73,21 @@ public class User implements Serializable {
     return tasks;
   }
 
+
+
+
+
   public void addTask(Task task) {
     tasks.add(task);
   }
+
+  public Collection<Group> getGroups() {
+    // Since tasks is collection controlled by JPA, it has LAZY loading by default. That means
+    // that you have to query the object (calling size(), for example) to get the list initialized
+    // More: http://www.javabeat.net/jpa-lazy-eager-loading/
+    ownergroups.size();
+    return ownergroups;
+  }
+  public void addOwnergroup(Group group) {ownergroups.add(group);}
 
 }
